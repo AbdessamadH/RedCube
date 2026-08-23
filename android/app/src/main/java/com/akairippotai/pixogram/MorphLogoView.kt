@@ -111,7 +111,7 @@ class MorphLogoView @JvmOverloads constructor(
         }
 
         glowAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = 300
+            duration = 500
             repeatMode = ValueAnimator.REVERSE
             repeatCount = ValueAnimator.INFINITE
             interpolator = AccelerateDecelerateInterpolator()
@@ -146,7 +146,7 @@ class MorphLogoView @JvmOverloads constructor(
 
         showBurst = true
         burstAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = 400
+            duration = 650
             interpolator = PathInterpolator(0.22f, 1f, 0.36f, 1f)
             addUpdateListener {
                 val t = it.animatedValue as Float
@@ -214,8 +214,8 @@ class MorphLogoView @JvmOverloads constructor(
     }
 
     companion object {
-        const val MORPH_DURATION_MS = 1800L
-        const val DISC_FADE_MS = 500L
+        const val MORPH_DURATION_MS = 3000L
+        const val DISC_FADE_MS = 800L
         private const val RED = 0xFFE30613.toInt()
     }
 }
