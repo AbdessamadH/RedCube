@@ -1,4 +1,4 @@
-package com.redcube.intro
+package com.akairippotai.pixogram
 
 import android.animation.ObjectAnimator
 import android.os.Bundle

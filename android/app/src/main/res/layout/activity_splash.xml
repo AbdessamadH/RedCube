@@ -17,7 +17,7 @@
         android:textStyle="bold"
         android:alpha="0" />
 
-    <com.redcube.intro.MorphLogoView
+    <com.akairippotai.pixogram.MorphLogoView
         android:id="@+id/morphLogo"
         android:layout_width="100dp"
         android:layout_height="100dp"

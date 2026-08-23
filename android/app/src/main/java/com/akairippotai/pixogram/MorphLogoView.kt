@@ -1,4 +1,4 @@
-package com.redcube.intro
+package com.akairippotai.pixogram
 
 import android.animation.ValueAnimator
 import android.content.Context

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.redcube.intro"
+    namespace = "com.akairippotai.pixogram"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.redcube.intro"
+        applicationId = "com.akairippotai.pixogram"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
