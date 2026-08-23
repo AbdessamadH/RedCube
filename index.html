@@ -40,6 +40,15 @@
     .red { color: #E30613; }
     .gray { color: #CCCCCC; }
 
+    /* Rapproche "ube" de l'arc et incline le début du "u" pour qu'il
+       semble prolonger la courbe de l'arc plutôt que commencer à plat */
+    .ube-word { margin-left: -8px; }
+    .u-lead {
+      display: inline-block;
+      transform-origin: 50% 100%;
+      transform: rotate(-10deg);
+    }
+
     @keyframes textAppear {
       to { opacity: 1; transform: translateY(0); }
     }
@@ -183,7 +192,7 @@
     </div>
 
     <div class="text-container ube-word">
-      <span class="red">ube</span>
+      <span class="red"><span class="u-lead">u</span>be</span>
     </div>
   </div>
 

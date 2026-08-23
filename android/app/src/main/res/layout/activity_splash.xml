@@ -24,15 +24,36 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp" />
 
-    <TextView
-        android:id="@+id/textUbe"
+    <!-- "u" séparé de "be" pour pouvoir l'incliner légèrement, comme s'il
+         prolongeait la courbe de l'arc plutôt que de commencer à plat.
+         layout_marginStart négatif : rapproche "ube" de l'arc. -->
+    <LinearLayout
+        android:id="@+id/ubeContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="ube"
-        android:textColor="@color/red"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        android:alpha="0" />
+        android:layout_marginStart="-8dp"
+        android:orientation="horizontal"
+        android:alpha="0">
+
+        <TextView
+            android:id="@+id/textU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="u"
+            android:textColor="@color/red"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="be"
+            android:textColor="@color/red"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>
