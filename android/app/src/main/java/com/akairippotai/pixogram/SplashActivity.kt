@@ -31,8 +31,8 @@ class SplashActivity : AppCompatActivity() {
         IntroSoundEffects.playWhoosh(MorphLogoView.MORPH_DURATION_MS)
 
         // "red" appears, then "ube" a beat later: rhythm instead of a synced fade.
-        fadeInText(textRed, delay = 500)
-        fadeInText(textUbe, delay = 750)
+        fadeInText(textRed, delay = 1000)
+        fadeInText(textUbe, delay = 1150)
 
         window.decorView.postDelayed(introFinishedRunnable, TOTAL_DURATION_MS)
     }
@@ -44,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
         )
         ObjectAnimator.ofPropertyValuesHolder(textView, alpha, translateY).apply {
             startDelay = delay
-            duration = 800
+            duration = 1000
             interpolator = PathInterpolator(0.22f, 1f, 0.36f, 1f)
             start()
         }
@@ -61,6 +61,6 @@ class SplashActivity : AppCompatActivity() {
 
     private companion object {
         const val TOTAL_DURATION_MS =
-            MorphLogoView.MORPH_DURATION_MS + MorphLogoView.DISC_FADE_MS + 800L
+            MorphLogoView.MORPH_DURATION_MS + MorphLogoView.DISC_FADE_MS + 1000L
     }
 }

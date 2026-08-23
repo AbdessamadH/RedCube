@@ -27,15 +27,15 @@
       opacity: 0;
       transform: translateY(6px);
       animation-name: textAppear;
-      animation-duration: 800ms;
+      animation-duration: 1000ms;
       animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
       animation-fill-mode: forwards;
       font-size: 5em;
     }
 
     /* "red" apparaît, puis "ube" un peu après : rythme au lieu d'un fondu synchrone */
-    .text-container.red-word { animation-delay: 500ms; }
-    .text-container.ube-word { animation-delay: 750ms; }
+    .text-container.red-word { animation-delay: 1000ms; }
+    .text-container.ube-word { animation-delay: 1150ms; }
 
     .red { color: #E30613; }
     .gray { color: #CCCCCC; }
@@ -60,9 +60,9 @@
       /* Morph avec léger overshoot ("pop") + rotation qui décélère jusqu'à
          s'arrêter net pile quand la forme devient un cercle (plus de coin
          visible = plus d'à-coup à la transition) + glow qui pulse */
-      animation: morphShape 3000ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-                 rotateShape 3000ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-                 pulseGlow 1000ms ease-in-out infinite;
+      animation: morphShape 5000ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                 rotateShape 5000ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+                 pulseGlow 2000ms ease-in-out infinite;
     }
 
     @keyframes rotateShape {
@@ -104,7 +104,7 @@
 
     .fading-disc.show {
       display: block;
-      animation: fadeOut 800ms linear forwards;
+      animation: fadeOut 1000ms linear forwards;
     }
 
     @keyframes fadeOut {
@@ -188,9 +188,9 @@
   </div>
 
   <script>
-    const SWITCH_TIME = 3000;   // fin du morph carré -> cercle
-    const DISC_FADE = 800;      // durée du fondu du disque
-    const HOLD = 800;           // temps d'affichage du logo final avant de quitter
+    const SWITCH_TIME = 5000;   // fin du morph carré -> cercle
+    const DISC_FADE = 1000;     // durée du fondu du disque
+    const HOLD = 1000;          // temps d'affichage du logo final avant de quitter
     const TOTAL_TIME = SWITCH_TIME + DISC_FADE + HOLD;
 
     // Sons synthétisés (Web Audio API, aucun fichier audio requis).
