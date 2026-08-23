@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/textRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="red"
+        android:textColor="@color/gray"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:alpha="0" />
+
+    <com.redcube.intro.MorphLogoView
+        android:id="@+id/morphLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp" />
+
+    <TextView
+        android:id="@+id/textUbe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="ube"
+        android:textColor="@color/red"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:alpha="0" />
+
+</LinearLayout>
