@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>RedCube - Intro</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Arial Black', sans-serif;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .text-container {
+      display: flex;
+      opacity: 0;
+      animation: textAppear 1s ease-out 1s forwards;
+      font-size: 5em;
+    }
+
+    .red { color: #E30613; }
+    .gray { color: #CCCCCC; }
+
+    @keyframes textAppear {
+      to { opacity: 1; }
+    }
+
+    .center-container {
+      width: 100px;
+      height: 100px;
+      position: relative;
+    }
+
+    /* Carré qui devient cercle */
+    .morphing-shape {
+      width: 100px;
+      height: 100px;
+      background: #E30613;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(227, 6, 19, 0.7);
+      animation: morphShape 5s ease-in-out forwards,
+                 rotateShape 2s linear infinite;
+    }
+
+    @keyframes rotateShape {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes morphShape {
+      0% { border-radius: 15px; }
+      100% { border-radius: 50px; }
+    }
+
+    /* Arc statique */
+    .static-arc {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      opacity: 0;
+      display: none;
+    }
+
+    /* Disque qui disparaît */
+    .fading-disc {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      opacity: 0;
+      display: none;
+    }
+
+    .fading-disc.show {
+      display: block;
+      animation: fadeOut 1s linear forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Rotation globale de 140° sens horaire */
+    .static-arc svg {
+      transform: rotate(140deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-container">
+      <span class="gray">red</span>
+    </div>
+
+    <div class="center-container">
+      <div class="morphing-shape" id="morphingShape"></div>
+
+      <!-- Arc avec rotation globale de 140° -->
+      <div class="static-arc" id="staticArc">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <!-- Arc avec rayon de référence 47px et épaisseur 6px -->
+          <path d="M50 3 A47 47 0 1 1 3 50"
+                fill="none"
+                stroke="#E30613"
+                stroke-width="6"
+                stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Disque avec rayon 50px -->
+      <div class="fading-disc" id="fadingDisc">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50" fill="#E30613"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="text-container">
+      <span class="red">ube</span>
+    </div>
+  </div>
+
+  <script>
+    // À 5 secondes
+    setTimeout(() => {
+      // Cacher le carré qui se transformait
+      document.getElementById('morphingShape').style.display = 'none';
+
+      // Montrer l'arc (il reste statique)
+      const arc = document.getElementById('staticArc');
+      arc.style.display = 'block';
+      arc.style.opacity = '1';
+
+      // Montrer le disque qui va disparaître
+      document.getElementById('fadingDisc').classList.add('show');
+    }, 5000);
+
+    setTimeout(() => {
+      window.location.href = "menu.html";
+    }, 7000);
+  </script>
+</body>
+</html>
