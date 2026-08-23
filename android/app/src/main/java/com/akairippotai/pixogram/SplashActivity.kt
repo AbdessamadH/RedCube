@@ -1,14 +1,16 @@
 package com.akairippotai.pixogram
 
 import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.os.Bundle
-import android.view.animation.DecelerateInterpolator
+import android.view.animation.PathInterpolator
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 /**
  * RedCube animated intro: rotating/morphing logo with "red" + "ube" text
- * fading in, matching the timing of the original web splash screen.
+ * fading in, matching the timing of the web splash screen (see index.html
+ * at the repo root for the reference implementation and exact constants).
  * Navigation to whatever screen follows the intro is intentionally not
  * wired up yet.
  */
@@ -24,18 +26,28 @@ class SplashActivity : AppCompatActivity() {
         val textUbe = findViewById<TextView>(R.id.textUbe)
         val morphLogo = findViewById<MorphLogoView>(R.id.morphLogo)
 
+        morphLogo.onReveal = { IntroSoundEffects.playPop() }
         morphLogo.startIntro()
+        IntroSoundEffects.playWhoosh(MorphLogoView.MORPH_DURATION_MS)
 
-        listOf(textRed, textUbe).forEach { textView ->
-            ObjectAnimator.ofFloat(textView, "alpha", 0f, 1f).apply {
-                startDelay = 1000
-                duration = 1000
-                interpolator = DecelerateInterpolator()
-                start()
-            }
+        // "red" appears, then "ube" 150ms later: a beat instead of a synced fade.
+        fadeInText(textRed, delay = 300)
+        fadeInText(textUbe, delay = 450)
+
+        window.decorView.postDelayed(introFinishedRunnable, TOTAL_DURATION_MS)
+    }
+
+    private fun fadeInText(textView: TextView, delay: Long) {
+        val alpha = PropertyValuesHolder.ofFloat(TextView.ALPHA, 0f, 1f)
+        val translateY = PropertyValuesHolder.ofFloat(
+            TextView.TRANSLATION_Y, textView.resources.displayMetrics.density * 6f, 0f
+        )
+        ObjectAnimator.ofPropertyValuesHolder(textView, alpha, translateY).apply {
+            startDelay = delay
+            duration = 500
+            interpolator = PathInterpolator(0.22f, 1f, 0.36f, 1f)
+            start()
         }
-
-        window.decorView.postDelayed(introFinishedRunnable, 7000)
     }
 
     override fun onDestroy() {
@@ -45,5 +57,10 @@ class SplashActivity : AppCompatActivity() {
 
     private fun onIntroFinished() {
         // TODO: navigate to Pixogram's main menu once that screen exists.
+    }
+
+    private companion object {
+        const val TOTAL_DURATION_MS =
+            MorphLogoView.MORPH_DURATION_MS + MorphLogoView.DISC_FADE_MS + 500L
     }
 }

@@ -25,15 +25,23 @@
     .text-container {
       display: flex;
       opacity: 0;
-      animation: textAppear 1s ease-out 1s forwards;
+      transform: translateY(6px);
+      animation-name: textAppear;
+      animation-duration: 500ms;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-fill-mode: forwards;
       font-size: 5em;
     }
+
+    /* "red" apparaît, puis "ube" 150ms après : rythme au lieu d'un fondu synchrone */
+    .text-container.red-word { animation-delay: 300ms; }
+    .text-container.ube-word { animation-delay: 450ms; }
 
     .red { color: #E30613; }
     .gray { color: #CCCCCC; }
 
     @keyframes textAppear {
-      to { opacity: 1; }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .center-container {
@@ -49,18 +57,27 @@
       background: #E30613;
       border-radius: 15px;
       box-shadow: 0 0 25px rgba(227, 6, 19, 0.7);
-      animation: morphShape 5s ease-in-out forwards,
-                 rotateShape 2s linear infinite;
+      /* Morph avec léger overshoot ("pop") + rotation qui décélère jusqu'à
+         s'arrêter net pile quand la forme devient un cercle (plus de coin
+         visible = plus d'à-coup à la transition) + glow qui pulse */
+      animation: morphShape 1800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                 rotateShape 1800ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+                 pulseGlow 600ms ease-in-out infinite;
     }
 
     @keyframes rotateShape {
       from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      to { transform: rotate(1080deg); }
     }
 
     @keyframes morphShape {
       0% { border-radius: 15px; }
       100% { border-radius: 50px; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 25px rgba(227, 6, 19, 0.7); }
+      50% { box-shadow: 0 0 40px rgba(227, 6, 19, 0.95); }
     }
 
     /* Arc statique */
@@ -87,7 +104,7 @@
 
     .fading-disc.show {
       display: block;
-      animation: fadeOut 1s linear forwards;
+      animation: fadeOut 500ms linear forwards;
     }
 
     @keyframes fadeOut {
@@ -99,11 +116,44 @@
     .static-arc svg {
       transform: rotate(140deg);
     }
+
+    /* Flash de lumière au moment où le carré cède la place à l'arc + disque */
+    .flash-burst {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 140px;
+      height: 140px;
+      margin: -70px 0 0 -70px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 90, 90, 0.9) 0%, rgba(227, 6, 19, 0) 70%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .flash-burst.burst {
+      animation: flashBurst 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes flashBurst {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      100% { opacity: 0; transform: scale(1.8); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .text-container, .morphing-shape, .fading-disc, .flash-burst {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+      }
+      .morphing-shape { border-radius: 50px; display: none; }
+      .static-arc { display: block; opacity: 1; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="text-container">
+    <div class="text-container red-word">
       <span class="gray">red</span>
     </div>
 
@@ -128,15 +178,75 @@
           <circle cx="50" cy="50" r="50" fill="#E30613"/>
         </svg>
       </div>
+
+      <div class="flash-burst" id="flashBurst"></div>
     </div>
 
-    <div class="text-container">
+    <div class="text-container ube-word">
       <span class="red">ube</span>
     </div>
   </div>
 
   <script>
-    // À 5 secondes
+    const SWITCH_TIME = 1800;   // fin du morph carré -> cercle
+    const DISC_FADE = 500;      // durée du fondu du disque
+    const HOLD = 500;           // temps d'affichage du logo final avant de quitter
+    const TOTAL_TIME = SWITCH_TIME + DISC_FADE + HOLD;
+
+    // Sons synthétisés (Web Audio API, aucun fichier audio requis).
+    // Les navigateurs bloquent l'audio sans interaction utilisateur : on
+    // tente de démarrer, et on se rattrape au premier clic/touch si besoin.
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        audioCtx = AudioCtx ? new AudioCtx() : null;
+      }
+      return audioCtx;
+    }
+    ['pointerdown', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, () => {
+        const ctx = getAudioContext();
+        if (ctx && ctx.state === 'suspended') ctx.resume();
+      }, { once: true });
+    });
+
+    function playWhoosh() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const duration = SWITCH_TIME / 1000;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(180, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + duration);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + duration * 0.4);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 900;
+      osc.connect(filter).connect(gain).connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    }
+
+    function playPop() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.18);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.2);
+    }
+
+    playWhoosh();
+
     setTimeout(() => {
       // Cacher le carré qui se transformait
       document.getElementById('morphingShape').style.display = 'none';
@@ -148,11 +258,16 @@
 
       // Montrer le disque qui va disparaître
       document.getElementById('fadingDisc').classList.add('show');
-    }, 5000);
+
+      // Flash au moment de la bascule
+      document.getElementById('flashBurst').classList.add('burst');
+
+      playPop();
+    }, SWITCH_TIME);
 
     setTimeout(() => {
       window.location.href = "menu.html";
-    }, 7000);
+    }, TOTAL_TIME);
   </script>
 </body>
 </html>
