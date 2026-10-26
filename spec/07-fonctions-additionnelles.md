@@ -12,6 +12,7 @@ Classées par **valeur / effort**. ⭐ = recommandé dès la v1 ou v1.5.
 | **Liste d'attente virtuelle** | Le client s'inscrit en arrivant, reçoit un SMS quand une table devient verte (lien direct avec la caméra !) | Haute | Faible |
 | **Fidélité & CRM** | Points, récompenses, offre anniversaire, historique des commandes, « recommander mon plat habituel » | Moyenne | Moyen |
 | **Avis après repas** | Note rapide après paiement ; les bonnes notes sont invitées à publier sur Google | Moyenne | Faible |
+| **Commande & réservation via WhatsApp** | Le client écrit au numéro du restaurant ; un assistant prend la commande/réservation et l'envoie au KDS | Haute (Maroc) | Moyen |
 | **Recommandations / upsell** | « Ce plat se marie avec… », dessert proposé en fin de repas | Moyenne | Faible |
 | **Assistant conversationnel** | Le client pose des questions sur la carte (« qu'est-ce qui est épicé et sans gluten ? ») en langage naturel, dans sa langue | Moyenne | Moyen |
 | **Cartes cadeaux** | Achat en ligne, utilisables au restaurant | Faible | Faible |
@@ -24,7 +25,7 @@ Classées par **valeur / effort**. ⭐ = recommandé dès la v1 ou v1.5.
 | ⭐ **Tableau de bord gérant** | CA en direct, ticket moyen, plats stars/poids morts (matrice menu engineering), food cost, temps de service | Haute | Moyen |
 | **Planning & pointage du personnel** | Planning hebdo, pointage, heures sup., répartition des pourboires | Moyenne | Moyen |
 | **Prévision d'affluence & de ventes (IA)** | Selon historique, météo, jour, événements → aide au planning et aux commandes fournisseurs | Haute | Élevé |
-| **HACCP digital** | Relevés de températures (capteurs IoT dans les frigos avec alerte), plan de nettoyage, traçabilité des lots | Haute (légal) | Moyen |
+| **HACCP digital** (référentiel ONSSA au Maroc) | Relevés de températures (capteurs IoT dans les frigos avec alerte), plan de nettoyage, traçabilité des lots | Haute (légal) | Moyen |
 | **Lecture des factures fournisseurs (OCR/IA)** | Photo de facture → réception de stock et mise à jour des prix automatiques | Moyenne | Moyen |
 | **Multi-établissements** | Groupe de restaurants, cuisine centrale, cartes et prix par site | Selon ambition | Élevé |
 | **Écran de retrait** | Écran « commande n° 42 prête » pour l'emporter | Faible | Faible |

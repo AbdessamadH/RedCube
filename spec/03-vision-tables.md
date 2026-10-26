@@ -20,7 +20,7 @@ Alertes : table orange depuis > X min, table rouge depuis > Y min sans commande,
 - **Boîtier IA local** : NVIDIA Jetson Orin Nano / mini-PC avec GPU ou accélérateur (Hailo, Coral).
   Analyse ~1 à 2 images/seconde par caméra : largement suffisant, l'état d'une table change lentement.
 - Switch PoE, onduleur.
-- Ordre de grandeur matériel : quelques centaines d'euros par caméra + 300–800 € le boîtier. ❓ à chiffrer sur devis.
+- Ordre de grandeur matériel ❓ à chiffrer sur devis auprès de distributeurs au Maroc ; à packager en **kit standard** vendu ou loué (voir doc 13).
 
 ## Pipeline logiciel (sur le boîtier)
 

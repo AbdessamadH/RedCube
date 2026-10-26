@@ -6,9 +6,12 @@
 |-------|---------|----------------|
 | **Table (QR)** | App client | Rattachée à la table, panier partagé, envoi en plusieurs fois (entrées puis plats) |
 | **Serveur** | App staff | Le serveur saisit pour le client (personnes âgées, groupes) |
-| **À emporter / click & collect** | Site / PWA | Créneau de retrait, paiement en ligne obligatoire ❓ |
-| **Livraison propre** | Site / PWA | Zone de livraison, frais, suivi, app livreur (phase 2) |
-| **Plateformes tierces** | Uber Eats, Glovo, Deliveroo, Just Eat… | Intégration via leur API ou un agrégateur (Deliverect, Otter…) → **une seule tablette** |
+| **À emporter / click & collect** | Site / PWA / **WhatsApp** | Créneau de retrait, paiement en ligne ou sur place |
+| **Livraison propre** | Site / PWA / WhatsApp | Zone, frais, **paiement à la livraison** (espèces) ou en ligne, app livreur simple (phase 2) |
+| **Plateformes tierces** (plus tard) | Glovo en priorité | Aucun restaurant pilote ne les utilise aujourd'hui : intégration en phase 4, via API partenaire si accessible ❓ |
+
+Chaque restaurant dispose d'une **page de commande en ligne** à son nom (lien à partager sur Instagram,
+Google Maps, WhatsApp) — sans commission, argument fort face aux plateformes.
 
 Toutes les commandes arrivent dans **le même flux** et le même KDS.
 
@@ -41,11 +44,11 @@ Chaque **ligne** a aussi son propre statut (une boisson peut être servie avant 
 
 ## Notifications
 
-- Client : commande reçue, prête, en route (web push / SMS / WhatsApp ❓).
+- Client : commande reçue, prête, en route — par **WhatsApp** en priorité, SMS en secours, web push.
 - Serveur : plat prêt à servir, client qui appelle, table en attente depuis trop longtemps.
 
 ## Critères d'acceptation
 
 - [ ] Commande QR visible sur le KDS en < 1 s.
-- [ ] Une commande Uber Eats et une commande table apparaissent dans le même KDS.
+- [ ] Une commande en ligne (livraison) et une commande table apparaissent dans le même KDS.
 - [ ] Coupure Internet de 10 min en cuisine : aucun ticket perdu.

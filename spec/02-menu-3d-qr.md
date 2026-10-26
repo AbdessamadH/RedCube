@@ -27,7 +27,8 @@ le **poser virtuellement sur la table** (réalité augmentée) pour juger de la 
 - Plat marqué **indisponible** automatiquement quand le stock d'un ingrédient est épuisé.
 - Cartes multiples : midi / soir / brunch, horaires de disponibilité.
 - Recherche et filtres (ex. « sans lactose »).
-- Multilingue, devise locale.
+- Multilingue **FR / AR (affichage RTL) / EN**, traduction assistée par IA dans le back-office ; prix en MAD.
+- Cartes spéciales programmables (ex. **menu ftour pendant le Ramadan**).
 
 ## Modèles 3D
 
@@ -44,7 +45,7 @@ le **poser virtuellement sur la table** (réalité augmentée) pour juger de la 
 
 | Méthode | Qualité | Coût / effort |
 |---------|---------|---------------|
-| **Photogrammétrie** smartphone (Polycam, RealityScan, Luma…) : 60–150 photos autour de l'assiette | Très réaliste | Faible matériel, ~30–60 min par plat |
+| **Photogrammétrie** smartphone (peut être vendue comme prestation, voir doc 13) (Polycam, RealityScan, Luma…) : 60–150 photos autour de l'assiette | Très réaliste | Faible matériel, ~30–60 min par plat |
 | Gaussian splatting (Luma, Polycam) | Le plus réaliste | Format moins standard pour l'AR, à surveiller |
 | Modélisation 3D par un graphiste (Blender) | Stylisé, parfait | Coûteux par plat |
 

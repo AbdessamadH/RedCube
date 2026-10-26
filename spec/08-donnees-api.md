@@ -3,6 +3,7 @@
 ## Entités principales
 
 ```
+Plan(offre) 1─n Abonnement n─1 Organisation        # côté SaaS
 Organisation 1─n Restaurant 1─n Salle 1─n Table 1─n QrCode
                      │                    └─n TableState (historique des états)
                      │                    └─n Camera ─n TableZone (polygones)
@@ -15,13 +16,16 @@ Organisation 1─n Restaurant 1─n Salle 1─n Table 1─n QrCode
                      ├─n Fournisseur 1─n BonCommande 1─n LigneBonCommande
                      ├─n SessionTable (une occupation de table) 1─n Commande 1─n LigneCommande
                      │                                          1─n Note(addition) 1─n Paiement
+                     ├─n SessionCaisse (ouverture/fermeture, fond, Z) 1─n Ticket ─► JournalCaisse (chaîné)
+                     ├─n Facture (n° séquentiel, ICE client optionnel)
+                     ├─1 ConfigPaiement (passerelle, identifiants chiffrés)
                      ├─n Client (optionnel, si compte/fidélité)
                      └─n Reservation
 ```
 
 Conventions :
 - Identifiants UUID, `restaurant_id` sur chaque table (multi-tenant + sécurité au niveau ligne).
-- Montants en **centimes entiers** + code devise ; jamais de flottants pour l'argent.
+- Montants en **centimes entiers** + code devise (`MAD`) ; jamais de flottants pour l'argent.
 - Les prix sont **copiés** dans la ligne de commande au moment de la commande (historique fiable).
 - Mouvements de stock et paiements : tables **append-only** (on n'efface pas, on corrige par un nouveau mouvement).
 
@@ -47,7 +51,9 @@ GET    /v1/reports/sales?from=&to=
 
 # Intégrations entrantes
 POST   /v1/webhooks/payments/{provider}
-POST   /v1/webhooks/delivery/{platform}
+POST   /v1/webhooks/whatsapp
+POST   /v1/webhooks/delivery/{platform}    # plus tard (Glovo)
+POST   /v1/pos/sync                         # synchro de la caisse après une coupure
 POST   /v1/edge/table-states               → boîtier vision (auth par certificat/clé d'appareil)
 ```
 

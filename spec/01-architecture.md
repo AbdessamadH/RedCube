@@ -27,6 +27,9 @@ Principe clé : **la vidéo reste dans le restaurant**. Seuls des états de tabl
 |-----|-----------------|----------|
 | **App client** (menu, commande, paiement) | Next.js (React) en **PWA** | Ouverte par QR, rien à installer, SEO pour la commande en ligne |
 | **Back-office** gérant | Next.js, même design system | Partage du code avec l'app client |
+| **Caisse (POS)** | PWA / app Android tablette, hors ligne d'abord (base locale + synchro) | Voir [12-caisse.md](12-caisse.md) |
+| **Site vitrine + onboarding SaaS** | Next.js | Inscription, essai, choix de l'offre |
+| **Console super-admin** | Next.js | Support, abonnements, supervision des boîtiers |
 | **App staff** (serveurs) | React Native (Expo) ou PWA | Notifications push fiables, vibration ; l'expérience Android native du dépôt peut servir |
 | **KDS cuisine** | PWA plein écran sur tablette | Simple à déployer, fonctionne hors ligne quelques minutes |
 | **API principale** | Node.js + TypeScript (NestJS) | Un seul langage front/back, typage partagé |
@@ -58,13 +61,17 @@ spec/            # ce dossier
 
 ## Multi-tenant
 
-Dès le départ, chaque donnée porte un `restaurant_id` (et `organisation_id` pour les groupes).
-Cela permet de vendre la solution à d'autres restaurants (modèle SaaS) sans refonte.
+Le produit étant vendu en **SaaS**, le multi-tenant est une exigence du jour 1 :
+chaque donnée porte un `restaurant_id` (et `organisation_id` pour les groupes), avec isolation
+au niveau base (Row Level Security) et tests automatiques anti-fuite entre restaurants.
+Les modules sont activés par **offre d'abonnement** (feature flags).
 
 ## Déploiement & environnements
 
 - `dev` (local, Docker Compose) → `staging` → `production`.
-- Hébergement : un cloud européen ou proche des clients (OVHcloud, Scaleway, AWS eu-west-3…). ❓
+- Hébergement : de préférence **au Maroc** (loi 09-08 : le transfert de données à l'étranger est encadré par la CNDP),
+  avec une architecture portable (Docker, PostgreSQL standard, stockage S3 compatible). Voir [09-securite-legal.md](09-securite-legal.md). ❓ comparer les offres locales.
+- Notifications : **WhatsApp Business API** (canal principal au Maroc), SMS, web push.
 - CI/CD : GitHub Actions (tests, lint, build, déploiement).
 - Observabilité : logs centralisés, métriques, alertes (Sentry pour les erreurs front/back).
 
@@ -76,6 +83,7 @@ Cela permet de vendre la solution à d'autres restaurants (modèle SaaS) sans re
 | Latence commande → KDS | < 1 s |
 | Latence changement d'état table → plan de salle | < 5 s |
 | Disponibilité pendant les services | 99,9 % |
-| Mode dégradé | KDS et app staff continuent si Internet coupe (file locale, resynchronisation) |
+| Mode dégradé | **Caisse**, KDS et app staff continuent si Internet coupe (base locale, resynchronisation) |
 | Accessibilité | WCAG 2.1 AA sur l'app client |
-| Langues | FR, EN, AR (RTL) au minimum ❓ |
+| Langues | **FR, AR (RTL), EN** dès le MVP ; ES ensuite |
+| Devise / formats | MAD, formats de date et de nombre marocains, fuseau Africa/Casablanca |
